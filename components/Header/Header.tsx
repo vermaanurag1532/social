@@ -8,6 +8,7 @@ import {
   rem
 } from '@mantine/core';
 import Link from 'next/link';
+import Explore from '../Explore';
 import { useDisclosure } from '@mantine/hooks';
 import styles from './Header.module.css';
 import { useState } from 'react';
@@ -66,7 +67,7 @@ const mockdata = [
   },
   { icon: IconDeviceDesktopAnalytics, label: 'Loops', component: <div>Loops Component</div> },
   { icon: IconCalendarStats, label: 'Create', component: <div>Create Component</div> },
-  { icon: IconSearch, label: 'Explore', component: <div>Explore Component</div> },
+  { icon: IconSearch, label: 'Explore', component: <Explore /> },
   { icon: IconUser, label: 'Profile', component: <HomeProfile /> },
   { icon: IconSettings, label: 'Settings', component: <div>Settings Component</div> }
 ];
