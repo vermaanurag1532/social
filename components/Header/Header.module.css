@@ -35,8 +35,9 @@
 
 .logoImage {
   height: 120px;
-  width: 200px;
+  width: 220px;
   margin-top: -30px;
+  margin-left: -20px;
 }
 
 .home {
@@ -53,5 +54,13 @@
 @media (max-width: 768px) {
   .homeProfile {
     display: none;
+  }
+
+  .home {
+    flex-direction: column;
+  }
+
+  .logoImage {
+    margin-left: 10px;
   }
 }
