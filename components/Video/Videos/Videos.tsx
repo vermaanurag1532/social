@@ -106,23 +106,23 @@ const Videos: React.FC = () => {
       </div>
       {loading ? (
         <>
-          {/* Add Skeletons for category headings */}
           {[...Array(3)].map((_, index) => (
-            <Skeleton key={index} height={8} mt={6} width="70%" radius="xl" />
-          ))}
+            <div>
+              <Skeleton height={20} mt={6} width="70%" radius="xl" />
 
-          {/* Add Skeletons for video cards matching .videoCard */}
-          <div className={styles.carousel}>
-            {[...Array(6)].map((_, index) => (
-              <Skeleton
-                key={index}
-                height={200}  // Matches the height of the video card
-                width={200}   // Matches the width of the video card
-                mt={6}
-                radius="xl"
-              />
-            ))}
-          </div>
+              <div className={styles.carousel}>
+                {[...Array(3)].map((_, index) => (
+                  <Skeleton
+                    key={index}
+                    height={200}  // Matches the height of the video card
+                    width={200}   // Matches the width of the video card
+                    mt={6}
+                    radius="xl"
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
         </>
       ) : error ? (
         <div className={styles.error}>{error}</div>
