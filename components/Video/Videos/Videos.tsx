@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Skeleton } from '@mantine/core';
 import styles from './Videos.module.css';
 import { app } from '../../../firebase/config/Firebase';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
@@ -103,41 +104,65 @@ const Videos: React.FC = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
-      {loading && <div className={styles.loading}>Loading...</div>}
-      {error && <div className={styles.error}>{error}</div>}
-      {selectedVideo && (
-        <div className={styles.modal}>
-          <video controls autoPlay className={styles.modalVideoPlayer}>
-            <source src={selectedVideo.url} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          <button className={styles.closeModal} onClick={handleCloseModal}>
-            X
-          </button>
-        </div>
-      )}
-      {filteredCategories.map((category) => (
-        <div key={category.name} className={styles.category}>
-          <h2 className={styles.categoryTitle}>{category.name}</h2>
+      {loading ? (
+        <>
+          {/* Add Skeletons for category headings */}
+          {[...Array(3)].map((_, index) => (
+            <Skeleton key={index} height={8} mt={6} width="70%" radius="xl" />
+          ))}
+
+          {/* Add Skeletons for video cards matching .videoCard */}
           <div className={styles.carousel}>
-            {category.videos.map((video, index) => (
-              <div key={index} className={styles.videoCard}>
-                <img
-                  src={video.thumbnail}
-                  alt={video.title}
-                  className={styles.thumbnail}
-                  onClick={() => handleVideoSelect(video)}
-                />
-                <div className={styles.videoInfo}>
-                  <h3 className={styles.videoTitle}>{video.title}</h3>
-                  <p className={styles.videoDescription}>{video.description}</p>
-                  <p className={styles.uploadedBy}>Uploaded by: {video.uploadedBy}</p>
-                </div>
-              </div>
+            {[...Array(6)].map((_, index) => (
+              <Skeleton
+                key={index}
+                height={200}  // Matches the height of the video card
+                width={200}   // Matches the width of the video card
+                mt={6}
+                radius="xl"
+              />
             ))}
           </div>
-        </div>
-      ))}
+        </>
+      ) : error ? (
+        <div className={styles.error}>{error}</div>
+      ) : (
+        <>
+          {selectedVideo && (
+            <div className={styles.modal}>
+              <video controls autoPlay className={styles.modalVideoPlayer}>
+                <source src={selectedVideo.url} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <button className={styles.closeModal} onClick={handleCloseModal}>
+                X
+              </button>
+            </div>
+          )}
+          {filteredCategories.map((category) => (
+            <div key={category.name} className={styles.category}>
+              <h2 className={styles.categoryTitle}>{category.name}</h2>
+              <div className={styles.carousel}>
+                {category.videos.map((video, index) => (
+                  <div key={index} className={styles.videoCard}>
+                    <img
+                      src={video.thumbnail}
+                      alt={video.title}
+                      className={styles.thumbnail}
+                      onClick={() => handleVideoSelect(video)}
+                    />
+                    <div className={styles.videoInfo}>
+                      <h3 className={styles.videoTitle}>{video.title}</h3>
+                      <p className={styles.videoDescription}>{video.description}</p>
+                      <p className={styles.uploadedBy}>Uploaded by: {video.uploadedBy}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </>
+      )}
     </div>
   );
 };
