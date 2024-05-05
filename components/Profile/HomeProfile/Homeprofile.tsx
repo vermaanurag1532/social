@@ -46,7 +46,7 @@ const HomeProfile = () => {
         {items}
       </Group>
       <Button fullWidth radius="md" mt="xl" size="md" variant="default">
-        Follow
+        Member
       </Button>
     </Card>
   );

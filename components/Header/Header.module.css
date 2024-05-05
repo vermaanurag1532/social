@@ -35,6 +35,24 @@
 
 .logoImage {
   height: 120px;
-  width: 200px;
+  width: 220px;
   margin-top: -30px;
+  margin-left: -20px;
+}
+
+.home {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.homeProfile {
+  height: 100px;
+  top: 10px;
+}
+
+@media (max-width: 768px) {
+  .homeProfile {
+    display: none;
+  }
 }

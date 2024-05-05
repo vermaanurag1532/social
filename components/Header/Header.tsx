@@ -1,9 +1,18 @@
-import { AppShell, Burger, Group, Skeleton, Tooltip, UnstyledButton, rem, Stack } from '@mantine/core';
+import {
+  AppShell,
+  Burger,
+  Group,
+  Stack,
+  Tooltip,
+  UnstyledButton,
+  rem
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import styles from './Header.module.css'
+import styles from './Header.module.css';
 import { useState } from 'react';
 import { auth } from '../../firebase/config/Firebase';
 import Videos from '../Video/Videos';
+import HomeProfile from '../Profile/HomeProfile';
 import {
   IconHome2,
   IconGauge,
@@ -13,7 +22,7 @@ import {
   IconUser,
   IconSettings,
   IconLogout,
-  IconSwitchHorizontal,
+  IconSwitchHorizontal
 } from '@tabler/icons-react';
 
 interface NavbarLinkProps {
@@ -40,12 +49,13 @@ const mockdata = [
   { icon: IconCalendarStats, label: 'Releases' },
   { icon: IconUser, label: 'Account' },
   { icon: IconFingerprint, label: 'Security' },
-  { icon: IconSettings, label: 'Settings' },
+  { icon: IconSettings, label: 'Settings' }
 ];
 
 const Header = () => {
   const [opened, { toggle }] = useDisclosure();
   const [active, setActive] = useState(0);
+  const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(false);
 
   const links = mockdata.map((link, index) => (
     <NavbarLink
@@ -58,13 +68,17 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-        await auth.signOut(); // Sign out the user using Firebase authentication
-        // You can add additional logic here such as clearing local storage, redirecting, etc.
-        console.log("Logged out successfully");
+      await auth.signOut();
+      console.log("Logged out successfully");
     } catch (error) {
-        console.error('Error logging out:', (error as Error).message);
+      console.error('Error logging out:', (error as Error).message);
     }
-};
+  };
+
+  const handleBurgerClick = () => {
+    toggle();
+    setIsNavbarCollapsed(!opened); // Update navbar state
+  };
 
   return (
     <AppShell
@@ -74,7 +88,7 @@ const Header = () => {
     >
       <AppShell.Header>
         <Group h="100%" px="md">
-          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+          <Burger opened={opened} onClick={handleBurgerClick} hiddenFrom="sm" size="sm" />
           <img className={styles.logoImage} src="assets/Images/logo.png" alt="" />
         </Group>
       </AppShell.Header>
@@ -84,13 +98,19 @@ const Header = () => {
             {links}
           </Stack>
         </div>
-
         <Stack justify="center" gap={0}>
           <NavbarLink icon={IconSwitchHorizontal} label="Change account" />
           <NavbarLink onClick={handleLogout} icon={IconLogout} label="Logout" />
         </Stack>
       </AppShell.Navbar>
-      <AppShell.Main><Videos /></AppShell.Main>
+      <AppShell.Main>
+        <div className={styles.home}>
+          <Videos />
+          {!isNavbarCollapsed && (
+            <div className={styles.homeProfile}><HomeProfile /></div>
+          )}
+        </div>
+      </AppShell.Main>
     </AppShell>
   );
 };
