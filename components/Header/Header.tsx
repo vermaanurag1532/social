@@ -17,12 +17,12 @@ import HomeProfile from '../Profile/HomeProfile';
 import {
   IconHome2,
   IconDeviceDesktopAnalytics,
-  IconFingerprint,
   IconCalendarStats,
   IconUser,
   IconSettings,
   IconLogout,
-  IconSwitchHorizontal
+  IconSwitchHorizontal,
+  IconSearch
 } from '@tabler/icons-react';
 
 interface NavbarLinkProps {
@@ -66,6 +66,7 @@ const mockdata = [
   },
   { icon: IconDeviceDesktopAnalytics, label: 'Loops', component: <div>Loops Component</div> },
   { icon: IconCalendarStats, label: 'Create', component: <div>Create Component</div> },
+  { icon: IconSearch, label: 'Explore', component: <div>Explore Component</div> },
   { icon: IconUser, label: 'Profile', component: <HomeProfile /> },
   { icon: IconSettings, label: 'Settings', component: <div>Settings Component</div> }
 ];
