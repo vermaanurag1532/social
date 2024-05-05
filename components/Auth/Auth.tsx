@@ -70,7 +70,7 @@ const Auth = (props: PaperProps) => {
           image: result.user!.photoURL || "",
           isApproved: false,
           isContentCreator: false,
-          is_online: false,
+          is_online: 0,
           last_active: Date.now().toString(),
           lives: 0,
           mediumQuestions: 0,

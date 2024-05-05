@@ -14,7 +14,7 @@ export interface User {
     image: string;
     isApproved: boolean;
     isContentCreator: boolean;
-    is_online: boolean;
+    is_online: number;
     last_active: string;
     lives: number;
     mediumQuestions: number;
