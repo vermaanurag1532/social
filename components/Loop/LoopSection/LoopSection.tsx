@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './LoopSection.module.css';
+import { Skeleton } from '@mantine/core';
 import { app } from '../../../firebase/config/Firebase';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 
@@ -41,7 +42,7 @@ const LoopsSections: React.FC = () => {
         }
 
         // Shuffle videos after fetching
-        const fetchedVideos: Video[] = loopsSnapshot.docs.map(doc => ({
+        const fetchedVideos: Video[] = loopsSnapshot.docs.map((doc) => ({
           id: doc.id,
           videoUrl: doc.data().videoUrl,
           uploadedBy: doc.data().creatorName,
@@ -61,30 +62,43 @@ const LoopsSections: React.FC = () => {
     fetchVideos();
   }, []);
 
-  if (loading) return <div>Loading videos...</div>;
   if (error) return <div>{error}</div>;
 
   return (
     <div className={styles.container}>
-      {videos.map((video) => (
-        <div key={video.id} className={styles.videoWrapper}>
-          <video
-            className={styles.videoPlayer}
-            controls
-            autoPlay
-            muted
-            playsInline
-          >
-            <source src={video.videoUrl} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          <div className={styles.info}>
-            <h4>{video.title}</h4>
-            <p>{video.uploadedBy}</p>
-            <p>{video.description}</p>
+      {loading ? (
+        // Render skeletons when data is still being fetched
+        <>
+          {[...Array(3)].map((_, index) => (
+            <Skeleton
+              key={index}
+              className={styles.videoWrapper}
+              height="100%"
+              radius="lg"
+            />
+          ))}
+        </>
+      ) : (
+        videos.map((video) => (
+          <div key={video.id} className={styles.videoWrapper}>
+            <video
+              className={styles.videoPlayer}
+              controls
+              autoPlay
+              muted
+              playsInline
+            >
+              <source src={video.videoUrl} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <div className={styles.info}>
+              <h4>{video.title}</h4>
+              <p>{video.uploadedBy}</p>
+              <p>{video.description}</p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 };
