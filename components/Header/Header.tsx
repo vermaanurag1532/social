@@ -9,6 +9,7 @@ import {
 } from '@mantine/core';
 import Link from 'next/link';
 import Explore from '../Explore';
+import LoopsSections from '../Loop/LoopSection/LoopSection';
 import { useDisclosure } from '@mantine/hooks';
 import styles from './Header.module.css';
 import { useState } from 'react';
@@ -65,7 +66,7 @@ const mockdata = [
       </div>
     )
   },
-  { icon: IconDeviceDesktopAnalytics, label: 'Loops', component: <div>Loops Component</div> },
+  { icon: IconDeviceDesktopAnalytics, label: 'Loops', component: <LoopsSections /> },
   { icon: IconCalendarStats, label: 'Create', component: <div>Create Component</div> },
   { icon: IconSearch, label: 'Explore', component: <Explore /> },
   { icon: IconUser, label: 'Profile', component: <HomeProfile /> },
