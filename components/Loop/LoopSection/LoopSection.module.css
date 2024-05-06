@@ -6,7 +6,9 @@
    /* Allows vertical scrolling */
     padding: 20px;
     gap: 20px;
-    height: 70%; 
+    height: 100vh; 
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
   }
   
   .videoWrapper {
