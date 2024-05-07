@@ -9,6 +9,7 @@
     height: 100vh; 
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
+    margin-top: 7%;
   }
   
   .videoWrapper {
@@ -59,6 +60,10 @@
   
   /* Adjustments for very small screens */
   @media (max-width: 720px) {
+
+    .container{
+      margin-top: 0%;
+    }
   
     .videoWrapper {
       max-width: 400px; /* Adjust max-width for very small devices */
