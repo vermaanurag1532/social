@@ -10,6 +10,7 @@ import {
 import Link from 'next/link';
 import Explore from '../Explore';
 import LoopsSections from '../Loop/LoopSection/LoopSection';
+import BecomeCreator from '../UploadContent/BecomeCreator';
 import { useDisclosure } from '@mantine/hooks';
 import styles from './Header.module.css';
 import { useState } from 'react';
@@ -67,7 +68,7 @@ const mockdata = [
     )
   },
   { icon: IconDeviceDesktopAnalytics, label: 'Loops', component: <LoopsSections /> },
-  { icon: IconCalendarStats, label: 'Create', component: <div>Create Component</div> },
+  { icon: IconCalendarStats, label: 'Create', component: <BecomeCreator/> },
   { icon: IconSearch, label: 'Explore', component: <Explore /> },
   { icon: IconUser, label: 'Profile', component: <HomeProfile /> },
   { icon: IconSettings, label: 'Settings', component: <div>Settings Component</div> }
