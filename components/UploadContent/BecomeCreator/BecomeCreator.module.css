@@ -29,7 +29,6 @@
     max-width: 90%;
     height: 500px;
     border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   }
   
   .heading {
@@ -132,10 +131,12 @@
       max-width: 100%;
       padding: 8px;
       gap: 15px;
+      margin-top: 10%;
     }
   
     .imageContainer img {
       height: 200px;
+      display: none;
     }
   
     .heading {
