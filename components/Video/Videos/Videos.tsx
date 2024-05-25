@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Skeleton } from '@mantine/core';
+import { useRouter } from 'next/router';
 import styles from './Videos.module.css';
 import { app } from '../../../firebase/config/Firebase';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
@@ -7,11 +8,13 @@ import { getFirestore, collection, getDocs } from 'firebase/firestore';
 const db = getFirestore(app);
 
 interface Video {
+  id: string;
   title: string;
   description: string;
   thumbnail: string;
   url: string;
   uploadedBy: string;
+  category: string;
 }
 
 interface Category {
@@ -21,11 +24,11 @@ interface Category {
 
 const Videos: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredCategories, setFilteredCategories] = useState<Category[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -44,6 +47,8 @@ const Videos: React.FC = () => {
             const videosSnapshot = await getDocs(videosCollectionRef);
 
             const videos: Video[] = videosSnapshot.docs.map((videoDoc) => ({
+              id: videoDoc.id,
+              category: doc.id as string,
               title: videoDoc.data().title as string,
               description: videoDoc.data().description as string,
               thumbnail: videoDoc.data().thumbnail as string,
@@ -55,7 +60,6 @@ const Videos: React.FC = () => {
           })
         );
 
-        // Filter out categories without videos
         const nonEmptyCategories = fetchedCategories.filter(category => category.videos.length > 0);
         setCategories(nonEmptyCategories);
       } catch (err) {
@@ -88,11 +92,10 @@ const Videos: React.FC = () => {
   }, [searchQuery, categories]);
 
   const handleVideoSelect = (video: Video) => {
-    setSelectedVideo(video);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedVideo(null);
+    router.push({
+      pathname: '/videos',
+      query: { id: video.id, category: video.category }
+    });
   };
 
   return (
@@ -111,7 +114,6 @@ const Videos: React.FC = () => {
           {[...Array(3)].map((_, index) => (
             <div key={index}>
               <Skeleton height={20} mt={6} width="70%" radius="xl" />
-
               <div className={styles.carousel}>
                 {[...Array(3)].map((_, index) => (
                   <Skeleton
@@ -130,28 +132,20 @@ const Videos: React.FC = () => {
         <div className={styles.error}>{error}</div>
       ) : (
         <>
-          {selectedVideo && (
-            <div className={styles.modal}>
-              <video controls autoPlay className={styles.modalVideoPlayer}>
-                <source src={selectedVideo.url} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-              <button className={styles.closeModal} onClick={handleCloseModal}>
-                X
-              </button>
-            </div>
-          )}
           {filteredCategories.map((category) => (
             <div key={category.name} className={styles.category}>
               <h2 className={styles.categoryTitle}>{category.name}</h2>
               <div className={styles.carousel}>
                 {category.videos.map((video, index) => (
-                  <div key={index} className={styles.videoCard}>
+                  <div
+                    key={index}
+                    className={styles.videoCard}
+                    onClick={() => handleVideoSelect({ ...video, category: category.name })}
+                  >
                     <img
                       src={video.thumbnail}
                       alt={video.title}
                       className={styles.thumbnail}
-                      onClick={() => handleVideoSelect(video)}
                     />
                     <div className={styles.videoInfo}>
                       <h3 className={styles.videoTitle}>{video.title}</h3>

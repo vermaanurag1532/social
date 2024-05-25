@@ -5,3 +5,8 @@
   .avatar {
     border: rem(2px) solid var(--mantine-color-body);
   }
+@media (max-width: 768px) {
+  .card {
+    display: none;
+  }
+}

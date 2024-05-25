@@ -12,8 +12,8 @@ export interface User {
     hardQuestions: number;
     id: string;
     image: string;
-    isApproved: boolean;
-    isContentCreator: boolean;
+    isApproved: number;
+    isContentCreator: number;
     is_online: number;
     last_active: string;
     lives: number;

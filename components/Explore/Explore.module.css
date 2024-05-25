@@ -11,6 +11,7 @@
   background-color: #f9f9f9; /* Light background for the page */
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 7%;
 }
 
 .searchContainer {
@@ -145,5 +146,9 @@
 @media (max-width: 768px) {
    .resultCard {
     width: 320px;
+   }
+
+   .exploreContainer {
+    margin-top: 20%;
    }
 }

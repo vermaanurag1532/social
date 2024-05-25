@@ -1,15 +1,15 @@
-// Index.tsx
-import React from 'react';
-import Head from 'next/head';
+// pages/index.tsx
+import Videos from '@/components/Video/Videos';
+import HomeProfile from '@/components/Profile/HomeProfile';
+import styles from '../styles/HomePages.module.css';
 
-const Index = () => {
-  return (
-    <>
-      <Head>
-        <title>While</title>
-      </Head>
-    </>
-  );
-};
+const HomePage = () => (
+  <div className={styles.home}>
+    <Videos />
+    <div className={styles.homeProfile}>
+      <HomeProfile />
+    </div>
+  </div>
+);
 
-export default Index;
+export default HomePage;

@@ -9,6 +9,7 @@
     height: 100vh; 
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
+    margin-top: 5%
   }
   
   .videoWrapper {

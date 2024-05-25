@@ -1,3 +1,4 @@
+// components/Header.tsx
 import {
   AppShell,
   Burger,
@@ -8,15 +9,10 @@ import {
   rem
 } from '@mantine/core';
 import Link from 'next/link';
-import Explore from '../Explore';
-import LoopsSections from '../Loop/LoopSection/LoopSection';
-import BecomeCreator from '../UploadContent/BecomeCreator';
 import { useDisclosure } from '@mantine/hooks';
 import styles from './Header.module.css';
 import { useState } from 'react';
 import { auth } from '../../firebase/config/Firebase';
-import Videos from '../Video/Videos';
-import HomeProfile from '../Profile/HomeProfile';
 import {
   IconHome2,
   IconDeviceDesktopAnalytics,
@@ -31,66 +27,26 @@ import {
 interface NavbarLinkProps {
   icon: typeof IconHome2;
   label: string;
-  href?: string; // Optional if we're using click handlers
+  href: string;
   active?: boolean;
-  onClick?(): void;
+  onClick?: () => void; // Optional onClick handler
 }
 
 function NavbarLink({ icon: Icon, label, href, active, onClick }: NavbarLinkProps) {
   return (
     <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
-      {href ? (
-        <Link href={href}>
-          <UnstyledButton onClick={onClick} className={styles.link} data-active={active || undefined}>
-            <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
-          </UnstyledButton>
-        </Link>
-      ) : (
+      <Link href={href}>
         <UnstyledButton onClick={onClick} className={styles.link} data-active={active || undefined}>
           <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
         </UnstyledButton>
-      )}
+      </Link>
     </Tooltip>
   );
 }
 
-const mockdata = [
-  {
-    icon: IconHome2,
-    label: 'Home',
-    component: (
-      <div className={styles.home}>
-        <Videos />
-        <div className={styles.homeProfile}>
-          <HomeProfile />
-        </div>
-      </div>
-    )
-  },
-  { icon: IconDeviceDesktopAnalytics, label: 'Loops', component: <LoopsSections /> },
-  { icon: IconCalendarStats, label: 'Create', component: <BecomeCreator/> },
-  { icon: IconSearch, label: 'Explore', component: <Explore /> },
-  { icon: IconUser, label: 'Profile', component: <HomeProfile /> },
-  { icon: IconSettings, label: 'Settings', component: <div>Settings Component</div> }
-];
-
 const Header = () => {
   const [opened, { toggle }] = useDisclosure();
   const [activeIndex, setActiveIndex] = useState(0);
-
-  const handleNavItemClick = (index: number) => {
-    setActiveIndex(index); // Update the active index to render a new component
-  };
-
-  const links = mockdata.map((link, index) => (
-    <NavbarLink
-      key={link.label}
-      icon={link.icon}
-      label={link.label}
-      active={index === activeIndex}
-      onClick={() => handleNavItemClick(index)}
-    />
-  ));
 
   const handleLogout = async () => {
     try {
@@ -100,6 +56,24 @@ const Header = () => {
       console.error('Error logging out:', (error as Error).message);
     }
   };
+
+  const links = [
+    { icon: IconHome2, label: 'Home', href: '/' },
+    { icon: IconDeviceDesktopAnalytics, label: 'Loops', href: '/loops' },
+    { icon: IconCalendarStats, label: 'Create', href: '/create' },
+    { icon: IconSearch, label: 'Explore', href: '/explore' },
+    { icon: IconUser, label: 'Profile', href: '/profile' },
+    { icon: IconSettings, label: 'Settings', href: '/settings' }
+  ].map((link, index) => (
+    <NavbarLink
+      key={link.label}
+      icon={link.icon}
+      label={link.label}
+      href={link.href}
+      active={index === activeIndex}
+      onClick={() => setActiveIndex(index)}
+    />
+  ));
 
   return (
     <AppShell
@@ -124,10 +98,6 @@ const Header = () => {
           <NavbarLink href="#" onClick={handleLogout} icon={IconLogout} label="Logout" />
         </Stack>
       </AppShell.Navbar>
-      <AppShell.Main>
-        {/* Render the active component based on the active index */}
-        {mockdata[activeIndex]?.component}
-      </AppShell.Main>
     </AppShell>
   );
 };
