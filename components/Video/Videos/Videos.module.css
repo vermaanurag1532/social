@@ -4,7 +4,7 @@
   flex-direction: column;
   padding: 16px;
   gap: 24px;
-  width: 800px;
+  width: 750px;
 }
 
 /* Search bar at the top */
@@ -159,4 +159,10 @@
 
 .closeModal:hover {
   background: #c9302c;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+  }
 }

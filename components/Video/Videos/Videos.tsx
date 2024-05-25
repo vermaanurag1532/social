@@ -52,10 +52,12 @@ const Videos: React.FC = () => {
             }));
 
             return { name: doc.id, videos };
-          }),
+          })
         );
 
-        setCategories(fetchedCategories);
+        // Filter out categories without videos
+        const nonEmptyCategories = fetchedCategories.filter(category => category.videos.length > 0);
+        setCategories(nonEmptyCategories);
       } catch (err) {
         setError('Error fetching video categories: ' + (err as Error).message);
         console.error(err);
@@ -109,6 +111,7 @@ const Videos: React.FC = () => {
           {[...Array(3)].map((_, index) => (
             <div key={index}>
               <Skeleton height={20} mt={6} width="70%" radius="xl" />
+
               <div className={styles.carousel}>
                 {[...Array(3)].map((_, index) => (
                   <Skeleton
@@ -139,27 +142,26 @@ const Videos: React.FC = () => {
             </div>
           )}
           {filteredCategories.map((category) => (
-            category.videos.length > 0 && (
-              <div key={category.name} className={styles.category}>
-                <h2 className={styles.categoryTitle}>{category.name}</h2>
-                <div className={styles.carousel}>
-                  {category.videos.map((video, index) => (
-                    <div key={index} className={styles.videoCard} onClick={() => handleVideoSelect(video)}>
-                      <img
-                        src={video.thumbnail}
-                        alt={video.title}
-                        className={styles.thumbnail}
-                      />
-                      <div className={styles.videoInfo}>
-                        <h3 className={styles.videoTitle}>{video.title}</h3>
-                        <p className={styles.videoDescription}>{video.description}</p>
-                        <p className={styles.uploadedBy}>Uploaded by: {video.uploadedBy}</p>
-                      </div>
+            <div key={category.name} className={styles.category}>
+              <h2 className={styles.categoryTitle}>{category.name}</h2>
+              <div className={styles.carousel}>
+                {category.videos.map((video, index) => (
+                  <div key={index} className={styles.videoCard}>
+                    <img
+                      src={video.thumbnail}
+                      alt={video.title}
+                      className={styles.thumbnail}
+                      onClick={() => handleVideoSelect(video)}
+                    />
+                    <div className={styles.videoInfo}>
+                      <h3 className={styles.videoTitle}>{video.title}</h3>
+                      <p className={styles.videoDescription}>{video.description}</p>
+                      <p className={styles.uploadedBy}>Uploaded by: {video.uploadedBy}</p>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
-            )
+            </div>
           ))}
         </>
       )}
