@@ -1,9 +1,11 @@
-// Explore.tsx
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, getFirestore, DocumentData } from 'firebase/firestore';
-import { app } from '../../firebase/config/Firebase';
+import { app, auth } from '../../firebase/config/Firebase';
 import styles from "./Explore.module.css";
 import { Button } from '@nextui-org/react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { followUser } from '../Functions/FollowFunction'; // Adjust the path to your followUser function
+import { unfollowUser } from '../Functions/unFollowFunction'; // Adjust the path to your unfollowUser function
 
 const db = getFirestore(app);
 
@@ -13,6 +15,7 @@ const Explore = () => {
   const [communitiesResults, setCommunitiesResults] = useState<DocumentData[]>([]);
   const [selectedTab, setSelectedTab] = useState('People');
   const [following, setFollowing] = useState<{ [key: string]: boolean }>({});
+  const [user, loading, error] = useAuthState(auth);
 
   useEffect(() => {
     if (searchQuery.trim() !== '') {
@@ -53,8 +56,18 @@ const Explore = () => {
     setSelectedTab(tab);
   };
 
-  const handleFollowToggle = (id: string) => {
-    setFollowing(prev => ({ ...prev, [id]: !prev[id] }));
+  const handleFollowToggle = async (id: string) => {
+    const currentUserId = user?.uid; // Replace with the actual current user's ID
+    try {
+      if (following[id]) {
+        await unfollowUser(currentUserId, id);
+      } else {
+        await followUser(currentUserId, id);
+      }
+      setFollowing(prev => ({ ...prev, [id]: !prev[id] }));
+    } catch (error) {
+      console.error('Error toggling follow state:', error);
+    }
   };
 
   return (

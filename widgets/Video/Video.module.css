@@ -1,32 +1,88 @@
-/* Video.module.css */
 .videoContainer {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
     padding: 20px;
-    background-color: #f5f5f5;
-    max-height: 100vh;
-    margin-top: 20%;
+    min-height: 100vh;
+    margin-top: 5%;
+    margin-left: 200px;
+  }
+  
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
   }
   
   @media (min-width: 1024px) {
-    .videoContainer {
-      margin-left: 250px;
-      margin-top: 5%;
-      width: 1000px;
+    .mainContent {
+      flex-direction: row;
+      justify-content: space-between;
     }
+  }
+  
+  .videoSection {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .uploaderProfile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  .uploaderInfo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .uploaderAvatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .uploaderName {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .followButton {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #0070f3;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .followButton:hover {
+    background-color: #005bb5;
+    transform: scale(1.05);
   }
   
   .videoPlayer {
     width: 100%;
-    max-width: 800px;
-    height: 450px; /* Set a fixed height */
+    max-width: 600px;
+    height: 350px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
   }
   
   .videoDetails {
-    margin-top: 20px;
     text-align: center;
   }
   
@@ -42,10 +98,61 @@
     margin-top: 10px;
   }
   
-  .uploadedBy {
+  .relatedVideosSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    height: 600px;
+  }
+  
+  .relatedVideosHeading {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .relatedVideos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    width: 400px;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .relatedVideoCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    width: 100%;
+    max-width: 200px;
+    height: 300px;
+  }
+  
+  .relatedVideoCard:hover {
+    transform: translateY(-5px);
+  }
+  
+  .relatedVideoThumbnail {
+    width: 100%;
+    border-radius: 8px;
+    height: 200px;
+  }
+  
+  .relatedVideoTitle {
     font-size: 1rem;
-    color: #999;
+    color: #333;
     margin-top: 10px;
+    text-align: center;
   }
   
   .error {
@@ -53,5 +160,23 @@
     font-size: 1.2rem;
     text-align: center;
     margin-top: 20px;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .relatedVideos {
+      flex-direction: row;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      max-height: none;
+    }
   }
   
