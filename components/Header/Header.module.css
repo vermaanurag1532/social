@@ -1,10 +1,10 @@
 .navbar {
-  width: rem(90px);
-  height: rem(620px);
+  width: 90px;
+  height: 620px;
   padding: var(--mantine-spacing-md);
   display: flex;
   flex-direction: column;
-  border-right: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  border-right: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
 .navbarMain {
@@ -12,25 +12,27 @@
 }
 
 .link {
-  width: rem(50px);
-  height: rem(50px);
+  width: 50px;
+  height: 50px;
   border-radius: var(--mantine-radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+}
 
-  &:hover {
-    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
-  }
+.link:hover {
+  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
+}
 
-  &[data-active] {
-    &,
-    &:hover {
-      background-color: var(--mantine-color-blue-light);
-      color: var(--mantine-color-blue-light-color);
-    }
-  }
+.link[data-active] {
+  background-color: var(--mantine-color-blue-light);
+  color: var(--mantine-color-blue-light-color);
+}
+
+.link[data-active]:hover {
+  background-color: var(--mantine-color-blue-light);
+  color: var(--mantine-color-blue-light-color);
 }
 
 .logoImage {
