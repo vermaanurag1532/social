@@ -100,7 +100,7 @@
   
   @media (max-width: 768px) {
     .profileContainer {
-      margin-top: 10%;
+      margin-top: 15%;
       padding: 15px;
     }
   
@@ -114,17 +114,9 @@
       font-size: 1.2em;
     }
   
-    .profileStats {
-      flex-direction: column;
-      align-items: center;
-    }
   
     .statItem {
       margin-bottom: 10px;
-    }
-  
-    .suggestions {
-      flex-direction: column;
     }
   
     .suggestionItem {
@@ -134,13 +126,13 @@
   
   @media (max-width: 480px) {
     .profileContainer {
-      margin-top: 12%;
+      margin-top: 17%;
       padding: 10px;
     }
   
     .profileImage {
-      width: 50px;
-      height: 50px;
+      width: 70px;
+      height: 70px;
       margin-right: 10px;
     }
   
@@ -148,10 +140,6 @@
       font-size: 1em;
     }
   
-    .profileStats {
-      flex-direction: column;
-      align-items: center;
-    }
   
     .statItem {
       margin-bottom: 8px;
@@ -166,9 +154,6 @@
       font-size: 1em;
     }
   
-    .suggestions {
-      flex-direction: column;
-    }
   
     .suggestionItem {
       margin: 8px 0;
