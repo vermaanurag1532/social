@@ -21,7 +21,8 @@ import {
   IconSettings,
   IconLogout,
   IconSwitchHorizontal,
-  IconSearch
+  IconSearch,
+  IconMessage
 } from '@tabler/icons-react';
 
 interface NavbarLinkProps {
@@ -60,6 +61,7 @@ const Header = () => {
   const links = [
     { icon: IconHome2, label: 'Home', href: '/' },
     { icon: IconDeviceDesktopAnalytics, label: 'Loops', href: '/loops' },
+    { icon: IconMessage, label: 'Messages', href: '/message' },
     { icon: IconCalendarStats, label: 'Create', href: '/create' },
     { icon: IconSearch, label: 'Explore', href: '/explore' },
     { icon: IconUser, label: 'Profile', href: '/profile' },

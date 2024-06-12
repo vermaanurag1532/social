@@ -58,6 +58,7 @@ const Explore = () => {
 
   const handleFollowToggle = async (id: string) => {
     const currentUserId = user?.uid; // Replace with the actual current user's ID
+    console.log(id)
     try {
       if (following[id]) {
         await unfollowUser(currentUserId, id);
