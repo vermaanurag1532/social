@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { app } from '../../firebase/config/Firebase';
 import { getFirestore, doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import styles from './Video.module.css';
+import CommentSection from '../CommentSection';
 
 const db = getFirestore(app);
 
@@ -35,12 +36,10 @@ const Video: React.FC = () => {
         setVideo(videoData);
 
         // Fetch uploader info
-        console.log(videoData.uploadedBy);
         const uploadDocRef = doc(db, 'users', videoData.uploadedBy);
         const uploadDocSnapShot = await getDoc(uploadDocRef);
         if (uploadDocSnapShot.exists()) {
           const data = uploadDocSnapShot.data();
-          console.log(data.name)
           setUploader({
             name: data.name,
             image: data.image,
@@ -80,13 +79,12 @@ const Video: React.FC = () => {
   if (!video) {
     return <div className={styles.error}>Video not found.</div>;
   }
-  console.log(uploader.name);
 
   return (
     <div className={styles.videoContainer}>
       <div className={styles.mainContent}>
         <div className={styles.videoSection}>
-          <div className={styles.uploaderProfile}>
+        <div className={styles.uploaderProfile}>
             <div className={styles.uploaderInfo}>
               <img src={uploader.image} alt={video.uploadedBy} className={styles.uploaderAvatar} />
               <p className={styles.uploaderName}>{uploader.name}</p>
@@ -101,6 +99,7 @@ const Video: React.FC = () => {
             <h1 className={styles.videoTitle}>{video.title}</h1>
             <p className={styles.videoDescription}>{video.description}</p>
           </div>
+          <CommentSection videoId={id as string} category={category as string} />
         </div>
         <div className={styles.relatedVideosSection}>
           <h2 className={styles.relatedVideosHeading}>Related Videos</h2>

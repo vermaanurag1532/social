@@ -1,15 +1,14 @@
-/* ProfileVideos.module.css */
-
 .videoContainer {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     justify-content: center;
+    padding: 2%;
 }
 
 .videoCard {
-    width: 100%;
-    max-width: 300px;
+    width: 170px;
+    height: 370px;
     border-radius: 10px;
     overflow: hidden;
     background-color: #fff;
@@ -25,11 +24,16 @@
 
 .thumbnail {
     width: 100%;
-    height: auto;
+    height: 60%;
+    object-fit: cover;
 }
 
 .videoInfo {
     padding: 10px;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .videoInfo h3 {
@@ -40,6 +44,7 @@
 .videoInfo p {
     margin: 5px 0;
     color: #555;
+    flex-grow: 1;
 }
 
 .videoStats {
@@ -48,4 +53,16 @@
     margin-top: 10px;
     font-size: 0.9em;
     color: #777;
+}
+
+@media (max-width: 768px) {
+
+    .videoContainer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .videoCard {
+        width: auto;
+        height: 300px;
+    }
 }

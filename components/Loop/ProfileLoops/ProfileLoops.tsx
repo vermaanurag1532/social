@@ -57,7 +57,7 @@ const ProfileLoops: React.FC<ProfileLoopProps> = ({ uid }) => {
   }
 
   if (loops.length === 0) {
-    return <div>No loops found</div>;
+    return <div>Share your Knowledge with WHILE</div>;
   }
 
   return (

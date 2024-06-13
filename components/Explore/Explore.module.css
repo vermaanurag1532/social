@@ -66,7 +66,7 @@
 }
 
 .selectedTab {
-  font-size: 24px;
+  font-size: 1 rem;
   font-weight: bold;
   color: #333333;
   margin-top: 16px;
@@ -150,5 +150,32 @@
 
    .exploreContainer {
     margin-top: 20%;
+   }
+
+   .selectedTab {
+    font-size: 1rem;
+    font-weight: 400px;
+    margin-top: 0px;
+   }
+
+   .resultCard {
+    height: 45px;
+    width: 100%;
+   }
+
+   .profileImage {
+    height: 35px;
+    width: 35px;
+   }
+
+   .name {
+    font-size: 0.8rem;
+   }
+
+   .followButton ,.unfollowButton {
+    height: 30px;
+    padding: 0.5% 3%;
+
+    font-size: 0.8rem;
    }
 }

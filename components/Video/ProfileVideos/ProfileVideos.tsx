@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import { app } from '../../../firebase/config/Firebase';
 import styles from './ProfileVideos.module.css';
-import VideoModal from '@/widgets/VideoModal';
+import { useRouter } from 'next/router';
 
 const db = getFirestore(app);
 
@@ -14,6 +14,7 @@ interface Video {
     videoUrl: string;
     views: number;
     likes: string[];
+    Category: string;
 }
 
 interface ProfileVideosProps {
@@ -23,6 +24,7 @@ interface ProfileVideosProps {
 const ProfileVideos: React.FC<ProfileVideosProps> = ({ uid }) => {
     const [videos, setVideos] = useState<Video[]>([]);
     const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
+    const router = useRouter();
 
     useEffect(() => {
         const fetchVideos = async () => {
@@ -36,6 +38,7 @@ const ProfileVideos: React.FC<ProfileVideosProps> = ({ uid }) => {
                 videoUrl: doc.data().videoUrl,
                 views: doc.data().views,
                 likes: doc.data().likes,
+                Category: doc.data().category,
             })) as Video[]; // Type assertion
             setVideos(data);
         };
@@ -43,18 +46,18 @@ const ProfileVideos: React.FC<ProfileVideosProps> = ({ uid }) => {
         fetchVideos();
     }, [uid]);
 
-    const handleItemClick = (id: string) => {
-        setSelectedVideoId(id);
-    };
 
-    const handleCloseModal = () => {
-        setSelectedVideoId(null);
-    };
+    const handleVideoSelect = (video: Video) => {
+        router.push({
+          pathname: '/videos',
+          query: { id: video.id, category: video.Category }
+        });
+      };
 
     return (
         <div className={styles.videoContainer}>
             {videos.map(video => (
-                <div key={video.id} className={styles.videoCard} onClick={() => handleItemClick(video.id)}>
+                <div key={video.id} className={styles.videoCard} onClick={() => handleVideoSelect({ ...video  })}>
                     <img src={video.thumbnail} alt={video.title} className={styles.thumbnail} />
                     <div className={styles.videoInfo}>
                         <h3>{video.title}</h3>
@@ -66,9 +69,6 @@ const ProfileVideos: React.FC<ProfileVideosProps> = ({ uid }) => {
                     </div>
                 </div>
             ))}
-            {selectedVideoId && (
-                <VideoModal videoId={selectedVideoId} onClose={handleCloseModal} />
-            )}
         </div>
     );
 };

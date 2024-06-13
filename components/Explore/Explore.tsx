@@ -103,7 +103,6 @@ const Explore = () => {
                   <img src={result.image} alt="Profile" className={styles.profileImage} />
                   <div className={styles.infoContainer}>
                     <p className={styles.name}>{result.name}</p>
-                    <p className={styles.bio}>{result.bio || "Bio not available"}</p>
                   </div>
                   <Button
                     className={following[result.id] ? styles.unfollowButton : styles.followButton}
