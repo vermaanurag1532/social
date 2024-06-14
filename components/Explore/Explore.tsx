@@ -4,6 +4,7 @@ import { app, auth } from '../../firebase/config/Firebase';
 import styles from "./Explore.module.css";
 import { Button } from '@nextui-org/react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import useImageWithFallback from '../Functions/ImageFallbaclFunction';
 import { followUser } from '../Functions/FollowFunction'; // Adjust the path to your followUser function
 import { unfollowUser } from '../Functions/unFollowFunction'; // Adjust the path to your unfollowUser function
 

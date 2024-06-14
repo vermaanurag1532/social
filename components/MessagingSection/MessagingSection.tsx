@@ -8,7 +8,6 @@ import styles from './MessagingSection.module.css';
 
 const db = getFirestore(app);
 
-// Extend the String prototype to include the hashCode method
 declare global {
   interface String {
     hashCode(): number;
@@ -78,9 +77,10 @@ const Chat: React.FC = () => {
     console.log('Fetched users:', usersList);
   };
 
-  const fetchMessages = (selectedUser: User) => {
+  const fetchMessages = async (selectedUser: User) => {
     const conversationId = getConversationID(user!.uid, selectedUser.id);
     console.log('Fetching messages for conversation ID:', conversationId);
+
     const messagesRef = collection(db, 'chats', conversationId, 'messages');
     const q = query(messagesRef, orderBy('sent', 'asc'));
     onSnapshot(q, (snapshot) => {
@@ -121,60 +121,60 @@ const Chat: React.FC = () => {
 
   return (
     <div className={styles.chatContainer}>
-    <div className={styles.chatInner}>
-      <div className={styles.userList}>
-        <h4 className={styles.chatListHeader}>Chats</h4>
-        {users.map((user) => (
-          <div key={user.id} className={styles.userItem} onClick={() => setSelectedUser(user)}>
-            <img src={user.image} alt={user.name} className={styles.userImage} />
-            <p className={styles.userName}>{user.name}</p>
-          </div>
-        ))}
-      </div>
-      <div className={styles.chatBox}>
-        {selectedUser ? (
-          <>
-            <h6 className={styles.chatHeader}>{selectedUser.name}</h6>
-            <MessageList
-              className='message-list'
-              lockable={true}
-              toBottomHeight={'100%'}
-              referance={messageListRef}
-              dataSource={messages.map(message => ({
-                position: message.fromId === user!.uid ? 'right' : 'left',
-                type: 'text',
-                text: message.msg,
-                date: new Date(Number(message.sent)),
-                id: message.id,
-                title: '',
-                focus: false,
-                titleColor: '',
-                subtitle: '',
-                replyButton: false,
-                status: 'waiting',
-                forwarded: false,
-                removeButton: false,
-                notch: false,
-                retracted: false
-              }))}
-            />
-            <Input
-              placeholder="Type here..."
-              multiline={true}
-              value={messageText}
-              onChange={(e) => setMessageText(e.target.value)}
-              rightButtons={
-                <Button text='Send' onClick={sendMessage} />
-              }
-              maxHeight={100}
-            />
-          </>
-        ) : (
-          <div className={styles.selectUserPrompt}>Select a user to start chatting</div>
-        )}
+      <div className={styles.chatInner}>
+        <div className={styles.userList}>
+          <h4 className={styles.chatListHeader}>Chats</h4>
+          {users.map((user) => (
+            <div key={user.id} className={styles.userItem} onClick={() => setSelectedUser(user)}>
+              <img src={user.image} alt={user.name} className={styles.userImage} />
+              <p className={styles.userName}>{user.name}</p>
+            </div>
+          ))}
+        </div>
+        <div className={styles.chatBox}>
+          {selectedUser ? (
+            <>
+              <h6 className={styles.chatHeader}>{selectedUser.name}</h6>
+              <MessageList
+                className='message-list'
+                lockable={true}
+                toBottomHeight={'100%'}
+                referance={messageListRef}
+                dataSource={messages.map(message => ({
+                  position: message.fromId === user!.uid ? 'right' : 'left',
+                  type: 'text',
+                  text: message.msg,
+                  date: new Date(Number(message.sent)),
+                  id: message.id,
+                  title: '',
+                  focus: false,
+                  titleColor: '',
+                  subtitle: '',
+                  replyButton: false,
+                  status: 'waiting',
+                  forwarded: false,
+                  removeButton: false,
+                  notch: false,
+                  retracted: false
+                }))}
+              />
+              <Input
+                placeholder="Type here..."
+                multiline={true}
+                value={messageText}
+                onChange={(e) => setMessageText(e.target.value)}
+                rightButtons={
+                  <Button text='Send' onClick={sendMessage} />
+                }
+                maxHeight={100}
+              />
+            </>
+          ) : (
+            <div className={styles.selectUserPrompt}>Select a user to start chatting</div>
+          )}
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 

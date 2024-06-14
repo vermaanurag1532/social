@@ -1,4 +1,3 @@
-// components/Profile.tsx
 import React, { useEffect, useState } from 'react';
 import { app } from '../../../firebase/config/Firebase';
 import styles from './Profile.module.css';
@@ -6,6 +5,7 @@ import { User } from '../../../firebase/Models/User';
 import { getFirestore, doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import ProfileLoops from '@/components/Loop/ProfileLoops/ProfileLoops';
 import ProfileVideos from '@/components/Video/ProfileVideos/ProfileVideos';
+import useImageWithFallback from '@/components/Functions/ImageFallbaclFunction'; // Import the hook
 
 const db = getFirestore(app);
 
@@ -17,6 +17,10 @@ const Profile: React.FC<ProfileProps> = ({ authId }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<string>('loops');
+
+  // Integrate useImageWithFallback hook for user image
+  const imageUrl = user?.image || ''; // Assuming user.image is the URL of the user's image
+  const imgSrc = useImageWithFallback(imageUrl);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -85,7 +89,7 @@ const Profile: React.FC<ProfileProps> = ({ authId }) => {
   return (
     <div className={styles.profileContainer}>
       <div className={styles.profileHeader}>
-        <img src={user.image} alt={user.name} className={styles.profileImage} />
+        <img src={imgSrc} alt={user.name} className={styles.profileImage} /> {/* Use imgSrc here */}
         <div className={styles.profileDetails}>
           <h2>{user.name} <span className={styles.verifiedIcon}>✔️</span></h2>
           <p>{user.email}</p>

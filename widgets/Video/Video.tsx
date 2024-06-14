@@ -4,6 +4,7 @@ import { app } from '../../firebase/config/Firebase';
 import { getFirestore, doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import styles from './Video.module.css';
 import CommentSection from '../CommentSection';
+import useImageWithFallback from '@/components/Functions/ImageFallbaclFunction';
 
 const db = getFirestore(app);
 
@@ -68,6 +69,8 @@ const Video: React.FC = () => {
     fetchVideoData();
   }, [id, category]);
 
+  const uploaderImageSrc = useImageWithFallback(uploader.image);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -86,7 +89,7 @@ const Video: React.FC = () => {
         <div className={styles.videoSection}>
         <div className={styles.uploaderProfile}>
             <div className={styles.uploaderInfo}>
-              <img src={uploader.image} alt={video.uploadedBy} className={styles.uploaderAvatar} />
+              <img src={uploaderImageSrc} alt={video.uploadedBy} className={styles.uploaderAvatar} />
               <p className={styles.uploaderName}>{uploader.name}</p>
             </div>
             <button className={styles.followButton}>Follow</button>

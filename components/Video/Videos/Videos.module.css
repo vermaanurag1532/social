@@ -165,4 +165,17 @@
   .container {
     width: 100%;
   }
+
+  .searchContainer {
+    margin-bottom: 0px;
+  }
+
+  .category {
+    margin-top: 0px;
+  }
+
+  .categoryTitle {
+    font-size: 1 rem;
+    margin-bottom: 0px;
+  }
 }

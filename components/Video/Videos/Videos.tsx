@@ -3,7 +3,8 @@ import { Skeleton } from '@mantine/core';
 import { useRouter } from 'next/router';
 import styles from './Videos.module.css';
 import { app } from '../../../firebase/config/Firebase';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import truncateTitle from '../../Functions/TruncateFunction'
 
 const db = getFirestore(app);
 
@@ -30,6 +31,16 @@ const Videos: React.FC = () => {
   const [filteredCategories, setFilteredCategories] = useState<Category[]>([]);
   const router = useRouter();
 
+  const fetchUserName = async (userId: string) => {
+    const userDocRef = doc(db, 'users', userId);
+    const userDoc = await getDoc(userDocRef);
+    if (userDoc.exists()) {
+      return userDoc.data()?.name || 'Unknown User';
+    } else {
+      return 'Unknown User';
+    }
+  };
+
   useEffect(() => {
     const fetchCategories = async () => {
       setLoading(true);
@@ -46,15 +57,22 @@ const Videos: React.FC = () => {
             const videosCollectionRef = collection(db, `videos/${doc.id}/${doc.id}`);
             const videosSnapshot = await getDocs(videosCollectionRef);
 
-            const videos: Video[] = videosSnapshot.docs.map((videoDoc) => ({
-              id: videoDoc.id,
-              category: doc.id as string,
-              title: videoDoc.data().title as string,
-              description: videoDoc.data().description as string,
-              thumbnail: videoDoc.data().thumbnail as string,
-              url: videoDoc.data().videoUrl as string,
-              uploadedBy: videoDoc.data().uploadedBy as string,
-            }));
+            const videos: Video[] = await Promise.all(
+              videosSnapshot.docs.map(async (videoDoc) => {
+                const uploadedBy = videoDoc.data().uploadedBy as string;
+                const uploadedByName = await fetchUserName(uploadedBy);
+                
+                return {
+                  id: videoDoc.id,
+                  category: doc.id as string,
+                  title: videoDoc.data().title as string,
+                  description: videoDoc.data().description as string,
+                  thumbnail: videoDoc.data().thumbnail as string,
+                  url: videoDoc.data().videoUrl as string,
+                  uploadedBy: uploadedByName,
+                };
+              })
+            );
 
             return { name: doc.id, videos };
           })
@@ -97,6 +115,13 @@ const Videos: React.FC = () => {
       query: { id: video.id, category: video.category }
     });
   };
+
+  // const truncateTitle = (title: string, maxLength: number) => {
+  //   if (title.length > maxLength) {
+  //     return title.slice(0, maxLength) + '...';
+  //   }
+  //   return title;
+  // };
 
   return (
     <div className={styles.container}>
@@ -148,8 +173,7 @@ const Videos: React.FC = () => {
                       className={styles.thumbnail}
                     />
                     <div className={styles.videoInfo}>
-                      <h3 className={styles.videoTitle}>{video.title}</h3>
-                      <p className={styles.videoDescription}>{video.description}</p>
+                      <h3 className={styles.videoTitle}>{truncateTitle(video.title, 20)}</h3>
                       <p className={styles.uploadedBy}>Uploaded by: {video.uploadedBy}</p>
                     </div>
                   </div>
