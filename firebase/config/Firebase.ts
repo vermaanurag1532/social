@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { Auth, getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { Auth, getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 // Your Firebase configuration
 const firebaseConfig = {
@@ -10,7 +10,7 @@ const firebaseConfig = {
     storageBucket: "while-2.appspot.com",
     messagingSenderId: "759556546667",
     appId: "1:759556546667:web:9cd21fba85ac5d29e3912e"
-};
+  };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -19,7 +19,7 @@ const app = initializeApp(firebaseConfig);
 const auth: Auth = getAuth(app);
 
 // Export the Auth instance and GoogleAuthProvider
-export { auth, GoogleAuthProvider, app };
+export { auth, GoogleAuthProvider, app, createUserWithEmailAndPassword, sendEmailVerification };
 
 // Additional exports for signInWithEmailAndPassword and signInWithPopup
 export { signInWithEmailAndPassword, signInWithPopup };

@@ -14,19 +14,16 @@ import {
   Anchor,
   Stack,
 } from '@mantine/core';
-import classes from './Auth.module.css'
+import classes from './Auth.module.css';
 import { GoogleButton } from './GoogleButton';
-import { auth, GoogleAuthProvider, signInWithPopup } from "../../firebase/config/Firebase";
-import { collection, doc, setDoc, getFirestore, DocumentData , getDoc } from 'firebase/firestore';
+import { auth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "../../firebase/config/Firebase";
+import { collection, doc, setDoc, getFirestore, getDoc } from 'firebase/firestore';
 import { User } from '../../firebase/Models/User';
 import { Request } from '@/firebase/Models/Request';
 
 const db = getFirestore();
 
 const Auth = (props: PaperProps) => {
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   const [type, toggle] = useToggle(['login', 'register']);
   const form = useForm({
@@ -79,21 +76,15 @@ const Auth = (props: PaperProps) => {
           place: "",
           profession: "",
           push_token: ""
-
         };
 
         await setDoc(userDoc, newUser);
-
-      } else {
-        const existingUser = userSnap.data() as User;
-        console.log(userId);
-        
       }
 
-      const requestDoc = doc(db , 'requests', userId)
+      const requestDoc = doc(db, 'requests', userId)
       const requestSnap = await getDoc(requestDoc);
 
-      if(!requestSnap.exists()) {
+      if (!requestSnap.exists()) {
         const newRequest: Request = {
           instagramLink: "",
           isApproved: false,
@@ -103,18 +94,55 @@ const Auth = (props: PaperProps) => {
           youtubeLink: "",
         }
 
-        await setDoc(requestDoc , newRequest);
+        await setDoc(requestDoc, newRequest);
         console.log("request Created");
-      }
-      else {
-        const existingRequest = requestSnap.data() as Request;
-        console.log(userId);
-        
       }
 
       // Redirect or show the main content upon successful login
     } catch (error) {
       console.error('Error signing in with Google:', (error as Error).message);
+    }
+  };
+
+  const handleEmailRegister = async () => {
+    try {
+      const { email, password } = form.values;
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      await sendEmailVerification(user);
+
+      alert('A verification email has been sent to your email address. Please verify your email before logging in.');
+
+      // Clear form fields
+      form.reset();
+    } catch (error) {
+      console.error('Error registering with email:', (error as Error).message);
+    }
+  };
+
+  const handleEmailLogin = async () => {
+    try {
+      const { email, password } = form.values;
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      if (!user.emailVerified) {
+        alert('Please verify your email address before logging in.');
+        return;
+      }
+
+      // Redirect or show the main content upon successful login
+    } catch (error) {
+      console.error('Error logging in with email:', (error as Error).message);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (type === 'register') {
+      handleEmailRegister();
+    } else {
+      handleEmailLogin();
     }
   };
 
@@ -130,7 +158,7 @@ const Auth = (props: PaperProps) => {
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-      <form onSubmit={form.onSubmit(() => {})}>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack>
           {type === 'register' && (
             <TextInput
