@@ -24,7 +24,6 @@ import { Request } from '@/firebase/Models/Request';
 const db = getFirestore();
 
 const Auth = (props: PaperProps) => {
-
   const [type, toggle] = useToggle(['login', 'register']);
   const form = useForm({
     initialValues: {
@@ -33,74 +32,53 @@ const Auth = (props: PaperProps) => {
       password: '',
       terms: true,
     },
-
     validate: {
       email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
       password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
     },
   });
 
+  const [otpSent, setOtpSent] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-
-      // Check if the user exists in the Firestore database
-      const userId = result.user!.uid;
-      const userDoc = doc(db, 'users', userId);
-      const userSnap = await getDoc(userDoc);
-
-      if (!userSnap.exists()) {
-        // Create a new document for the user if not exist
-        const newUser: User = {
-          about: "Hey I am " + (result.user!.displayName || ""),
-          created_at: Date.now().toString(),
-          dateOfBirth: "",
-          designation: "Member",
-          easyQuestions: 0,
-          email: result.user!.email || "",
-          follower: 0,
-          following: 0,
-          gender: "",
-          hardQuestions: 0,
-          id: userId,
-          image: result.user!.photoURL || "",
-          isApproved: 0,
-          isContentCreator: 0,
-          is_online: 0,
-          last_active: Date.now().toString(),
-          lives: 0,
-          mediumQuestions: 0,
-          name: result.user!.displayName || "",
-          phoneNumber: "",
-          place: "",
-          profession: "",
-          push_token: ""
-        };
-
-        await setDoc(userDoc, newUser);
-      }
-
-      const requestDoc = doc(db, 'requests', userId)
-      const requestSnap = await getDoc(requestDoc);
-
-      if (!requestSnap.exists()) {
-        const newRequest: Request = {
-          instagramLink: "",
-          isApproved: false,
-          isContentCreator: false,
-          timeStamp: new Date(),
-          userId: userId,
-          youtubeLink: "",
+  
+      const email = result.user?.email; // Use optional chaining to safely access email
+  
+      if (email) {
+        const response = await fetch('/api/send-otp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        });
+  
+        if (response.ok) {
+          setOtpSent(true);
+          setUserEmail(email);
+        } else {
+          console.error('Failed to send OTP');
         }
-
-        await setDoc(requestDoc, newRequest);
-        console.log("request Created");
+      } else {
+        console.error('Email not found for the authenticated user.');
       }
-
-      // Redirect or show the main content upon successful login
     } catch (error) {
       console.error('Error signing in with Google:', (error as Error).message);
+    }
+  };
+  
+  const verifyOtp = async () => {
+    const response = await fetch(`/api/send-otp?email=${userEmail}&otp=${otp}`);
+    if (response.ok) {
+      alert('OTP verified. Login successful.');
+      // Redirect or show the main content upon successful login
+    } else {
+      alert('Invalid OTP. Please try again.');
     }
   };
 
@@ -158,58 +136,71 @@ const Auth = (props: PaperProps) => {
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-      <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Stack>
-          {type === 'register' && (
+      {otpSent ? (
+        <div>
+          <TextInput
+            label="OTP"
+            placeholder="Enter OTP"
+            value={otp}
+            onChange={(event) => setOtp(event.currentTarget.value)}
+            radius="md"
+          />
+          <Button onClick={verifyOtp} radius="xl">Verify OTP</Button>
+        </div>
+      ) : (
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Stack>
+            {type === 'register' && (
+              <TextInput
+                label="Name"
+                placeholder="Your name"
+                value={form.values.name}
+                onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
+                radius="md"
+              />
+            )}
+
             <TextInput
-              label="Name"
-              placeholder="Your name"
-              value={form.values.name}
-              onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
+              required
+              label="Email"
+              placeholder="hello@mantine.dev"
+              value={form.values.email}
+              onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
+              error={form.errors.email && 'Invalid email'}
               radius="md"
             />
-          )}
 
-          <TextInput
-            required
-            label="Email"
-            placeholder="hello@mantine.dev"
-            value={form.values.email}
-            onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
-            error={form.errors.email && 'Invalid email'}
-            radius="md"
-          />
-
-          <PasswordInput
-            required
-            label="Password"
-            placeholder="Your password"
-            value={form.values.password}
-            onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
-            error={form.errors.password && 'Password should include at least 6 characters'}
-            radius="md"
-          />
-
-          {type === 'register' && (
-            <Checkbox
-              label="I accept terms and conditions"
-              checked={form.values.terms}
-              onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}
+            <PasswordInput
+              required
+              label="Password"
+              placeholder="Your password"
+              value={form.values.password}
+              onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
+              error={form.errors.password && 'Password should include at least 6 characters'}
+              radius="md"
             />
-          )}
-        </Stack>
 
-        <Group justify="space-between" mt="xl">
-          <Anchor component="button" type="button" c="dimmed" onClick={() => toggle()} size="xs">
-            {type === 'register'
-              ? 'Already have an account? Login'
-              : "Don't have an account? Register"}
-          </Anchor>
-          <Button type="submit" radius="xl">
-            {upperFirst(type)}
-          </Button>
-        </Group>
-      </form>
+            {type === 'register' && (
+              <Checkbox
+                label="I accept terms and conditions"
+                checked={form.values.terms}
+                onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}
+              />
+            )}
+          </Stack>
+
+          <Group justify="space-between" mt="xl">
+            <Anchor component="button" type="button" c="dimmed" onClick={() => toggle()} size="xs">
+              {type === 'register'
+                ? 'Already have an account? Login'
+                : "Don't have an account? Register"}
+            </Anchor>
+            <Button type="submit" radius="xl">
+              {upperFirst(type)}
+            </Button>
+          </Group>
+        </form>
+      )}
     </Paper>
   );
 };

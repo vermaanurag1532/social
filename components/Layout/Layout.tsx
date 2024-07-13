@@ -13,11 +13,11 @@ const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
   const [user, loading, error] = useAuthState(auth);
 
   if (loading) {
-    return <div>Loading...</div>;  // Display a loading indicator while checking user authentication
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;  // Display an error message if there is an issue
+    return <div>Error: {error.message}</div>; 
   }
 
   return (

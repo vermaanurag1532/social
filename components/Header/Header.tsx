@@ -96,7 +96,7 @@ const Header = () => {
           </Stack>
         </div>
         <Stack justify="center" gap={0}>
-          <NavbarLink href="#" icon={IconSwitchHorizontal} label="Change account" />
+          <NavbarLink href="/UploadContent" icon={IconSwitchHorizontal} label="Change account" />
           <NavbarLink href="#" onClick={handleLogout} icon={IconLogout} label="Logout" />
         </Stack>
       </AppShell.Navbar>

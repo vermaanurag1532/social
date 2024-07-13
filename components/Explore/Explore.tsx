@@ -5,8 +5,8 @@ import styles from "./Explore.module.css";
 import { Button } from '@nextui-org/react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import useImageWithFallback from '../Functions/ImageFallbaclFunction';
-import { followUser } from '../Functions/FollowFunction'; // Adjust the path to your followUser function
-import { unfollowUser } from '../Functions/unFollowFunction'; // Adjust the path to your unfollowUser function
+import { followUser } from '../Functions/FollowFunction'; 
+import { unfollowUser } from '../Functions/unFollowFunction'; 
 
 const db = getFirestore(app);
 
@@ -59,7 +59,10 @@ const Explore = () => {
 
   const handleFollowToggle = async (id: string) => {
     const currentUserId = user?.uid; // Replace with the actual current user's ID
-    console.log(id)
+    if (!currentUserId) {
+      console.error('User is not authenticated');
+      return;
+    }
     try {
       if (following[id]) {
         await unfollowUser(currentUserId, id);

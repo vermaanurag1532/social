@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, app } from '../../../firebase/config/Firebase';
 import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
 import styles from './BecomeCreator.module.css';
-// import UploadSection from '../UploadSection/UploadSection';
 
 const db = getFirestore(app);
 
@@ -12,7 +11,7 @@ const Create = () => {
   const [youtubeLink, setYoutubeLink] = useState('');
   const [statusMessage, setStatusMessage] = useState('');
   const [user, loading, error] = useAuthState(auth);
-  const [isContentCreator, setIsContentCreator] = useState(false);
+  const [isContentCreator, setIsContentCreator] = useState<boolean | undefined>();
 
   useEffect(() => {
     const checkUserStatus = async () => {
@@ -28,10 +27,12 @@ const Create = () => {
           const userData = userSnap.data();
           const requestData = requestSnap.data();
           setIsContentCreator(userData.isApproved && userData.isContentCreator);
-          if (!userData.isApproved && !requestData.isContentCreator) {
+          if (userData.isApproved === 0 && requestData.isContentCreator === 0) {
             setStatusMessage('');
-          } else if (userData.isApproved && !userData.isContentCreator) {
+          } else if (userData.isApproved === 1 && userData.isContentCreator === 0) {
             setStatusMessage('Your application is under review by WHILE.');
+          } else if (userData.isApproved === 1 && userData.isContentCreator === 1) {
+            setStatusMessage('Welcome to our Team');
           }
         }
       }
@@ -42,18 +43,18 @@ const Create = () => {
     }
   }, [user, loading]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (user) {
       const { uid } = user;
       const userRef = doc(db, 'users', uid);
       const requestRef = doc(db, 'requests', uid);
 
-      await updateDoc(userRef, { isApproved: true });
+      await updateDoc(userRef, { isApproved: 1 });
       await updateDoc(requestRef, {
         instagramLink: instagramLink,
         youtubeLink: youtubeLink,
-        isApproved: true,
+        isApproved: 1,
         userId: uid,
       });
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { collection, setDoc, getDocs, query, orderBy, onSnapshot, doc, getFirestore, getDoc } from 'firebase/firestore';
 import { MessageList, Input, Button } from 'react-chat-elements';
@@ -119,6 +119,10 @@ const Chat: React.FC = () => {
     setMessageText('');
   };
 
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setMessageText(e.target.value);
+  };
+
   return (
     <div className={styles.chatContainer}>
       <div className={styles.chatInner}>
@@ -162,7 +166,7 @@ const Chat: React.FC = () => {
                 placeholder="Type here..."
                 multiline={true}
                 value={messageText}
-                onChange={(e) => setMessageText(e.target.value)}
+                onChange={handleInputChange}
                 rightButtons={
                   <Button text='Send' onClick={sendMessage} />
                 }

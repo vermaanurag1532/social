@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { Auth, getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { Auth, getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, createUserWithEmailAndPassword, sendEmailVerification ,RecaptchaVerifier, signInWithPhoneNumber , PhoneAuthProvider , signInWithCredential} from "firebase/auth";
 
 // Your Firebase configuration
 const firebaseConfig = {
@@ -22,4 +22,4 @@ const auth: Auth = getAuth(app);
 export { auth, GoogleAuthProvider, app, createUserWithEmailAndPassword, sendEmailVerification };
 
 // Additional exports for signInWithEmailAndPassword and signInWithPopup
-export { signInWithEmailAndPassword, signInWithPopup };
+export { signInWithEmailAndPassword, signInWithPopup, RecaptchaVerifier, signInWithPhoneNumber, PhoneAuthProvider, signInWithCredential};

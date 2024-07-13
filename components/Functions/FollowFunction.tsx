@@ -3,7 +3,7 @@ import { app } from '../../firebase/config/Firebase';
 
 const db = getFirestore(app);
 
-export const followUser = async (firstUid, secondUid) => {
+export const followUser = async (firstUid: string, secondUid: string) => {
   try {
     const firstUserFollowingRef = doc(collection(db, 'users', firstUid, 'following'), secondUid);
     const secondUserFollowersRef = doc(collection(db, 'users', secondUid, 'follower'), firstUid);
