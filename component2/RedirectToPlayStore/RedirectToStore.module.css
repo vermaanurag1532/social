@@ -1,0 +1,61 @@
+/* components/DownloadAppBanner.module.css */
+
+.downloadAppBanner {
+    background-color: #fff; /* Light background for better contrast */
+    border: 1px solid #ddd; /* Light border to define the banner area */
+    margin: 20px 0; /* Spacing around the banner */
+    padding: 20px; /* Add padding inside the banner */
+    border-radius: 8px; /* Rounded corners */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  }
+  
+  .downloadText {
+    font-size: 3rem; /* Larger font size for better readability */
+    font-weight: 500; /* Slightly bolder text */
+    color: #333; /* Darker text color */
+    flex: 1;
+    margin-right: 20px; /* Space between text and button */
+  }
+  
+  .downloadAppButton {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    background-color: #4285f4; /* Google Play color */
+    color: white; /* Text color */
+    border-radius: 4px; /* Rounded corners for button */
+    padding: 10px 16px; /* Button padding */
+    transition: background-color 0.3s; /* Smooth color transition */
+  }
+  
+  .downloadAppButton:hover {
+    background-color: #357ae8; /* Darker shade on hover */
+  }
+  
+  .downloadAppButton svg {
+    vertical-align: middle; /* Align icon with text */
+  }
+  
+  /* Media Query for Mobile Devices */
+  @media (max-width: 768px) {
+    .downloadAppBanner {
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: center;
+    }
+    
+    .downloadText {
+      margin-right: 0;
+      margin-bottom: 10px; 
+      font-size: 100px;
+    }
+    
+    .downloadAppButton {
+      width: 100%;
+      justify-content: center; /* Center button text */
+    }
+  }
+  

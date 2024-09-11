@@ -4,7 +4,7 @@ import { app, auth } from '../../firebase/config/Firebase';
 import { getFirestore, collection, getDocs, addDoc, doc, getDoc } from 'firebase/firestore';
 import styles from './CommentSection.module.css';
 import { IconChevronDown } from '@tabler/icons-react';
-import useImageWithFallback from '@/components/Functions/ImageFallbaclFunction';
+import useImageWithFallback from '@/component1/Functions/ImageFallbaclFunction';
 import CommentModal from './CommentModal';
 
 const db = getFirestore(app);

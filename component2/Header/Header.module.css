@@ -1,0 +1,149 @@
+.nav {
+  position: fixed;
+  top: 0%;
+  width: 100vw;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  backdrop-filter: blur(15px);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px 30px;
+}
+
+/*Styling logo*/
+
+.logo {
+  position: relative;
+  width: 200px;
+  height: 63px;
+}
+
+.logo img {
+  height: 200px;
+  width: 200px;
+  margin-top: -60px;
+}
+
+/*Styling Links*/
+
+.navlinks {
+  display: flex;
+  list-style: none;
+  padding: 0 0.7vw;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.links {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 40px;
+  text-decoration: none !important;
+  color: #777;
+  padding: 0 25px;
+}
+/*Styling Hamburger Icon*/
+
+.hamburger div {
+  width: 30px;
+  height: 3px;
+  background: linear-gradient(90deg, #04a0f4 0%, #11b7da 48.44%, #23d5b8 100%);
+  margin: 5px;
+  transition: all 2s ease;
+}
+
+.hamburger {
+  display: none;
+}
+
+.joinbtn {
+  border-radius: 37px;
+  background: linear-gradient(90deg, #04a0f4, #11b7da, #23d5b8);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 40px;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  padding: 5px 0;
+  width: 115px;
+}
+
+.links:hover{
+  font-weight: 500;
+}
+
+/*Stying for small screens*/
+
+@media screen and (max-width: 800px) {
+  .nav {
+    z-index: 3;
+    justify-content: space-between;
+  }
+
+  .logo {
+    padding: 0;
+  }
+  .logo img {
+    height: 10rem;
+    width: 10rem;
+    margin-top: -40px;
+  }
+  .hamburger {
+    display: block;
+    position: absolute;
+    cursor: pointer;
+    right: 5%;
+    top: 50%;
+    transform: translate(-5%, -50%);
+    z-index: 2;
+    transition: all 2s ease;
+  }
+  .navlinks {
+    position: fixed;
+    background: #fff;
+    backdrop-filter: blur(10px);
+    height: 100vh;
+    width: 100%;
+    flex-direction: column;
+    clip-path: circle(50px at 90% -20%);
+    -webkit-clip-path: circle(50px at 90% -10%);
+    transition: all 2s ease;
+    pointer-events: none;
+    background: #fff;
+    box-shadow: -3px 0px 11px 0px rgba(0, 0, 0, 0.25);
+    padding-bottom: 20px;
+    border-bottom-left-radius: 15px;
+  }
+  .navlinks.open {
+    clip-path: circle(1000px at 90% -10%);
+    -webkit-clip-path: circle(1000px at 90% -10%);
+    pointer-events: all;
+  }
+  .navlinks li {
+    opacity: 0;
+    transition: all 1s ease;
+  }
+  li.fade {
+    opacity: 1;
+    margin: 5px 0;
+  }
+}
+
+/*Animating Hamburger Icon on Click*/
+
+.toggle .line1 {
+  transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.toggle .line2 {
+  transition: all 2s ease;
+  width: 0;
+}
+
+.toggle .line3 {
+  transform: rotate(45deg) translate(-5px, -6px);
+}

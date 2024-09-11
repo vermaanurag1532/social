@@ -3,9 +3,9 @@ import { app } from '../../../firebase/config/Firebase';
 import styles from './Profile.module.css';
 import { User } from '../../../firebase/Models/User';
 import { getFirestore, doc, getDoc, collection, getDocs } from 'firebase/firestore';
-import ProfileLoops from '@/components/Loop/ProfileLoops/ProfileLoops';
-import ProfileVideos from '@/components/Video/ProfileVideos/ProfileVideos';
-import useImageWithFallback from '@/components/Functions/ImageFallbaclFunction'; // Import the hook
+import ProfileLoops from '@/component1/Loop/ProfileLoops/ProfileLoops';
+import ProfileVideos from '@/component1/Video/ProfileVideos/ProfileVideos';
+import useImageWithFallback from '@/component1/Functions/ImageFallbaclFunction'; // Import the hook
 
 const db = getFirestore(app);
 

@@ -1,0 +1,35 @@
+.footer {
+    background-color: #f9f9f9;
+    padding: 20px 0;
+    border-top: 1px solid #ddd;
+  }
+  
+  .footerGroup {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .footerText {
+    font-size: 0.875rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  /* Media Query for Mobile Devices */
+  @media (max-width: 768px) {
+    .footerGroup {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .footerText {
+      margin-bottom: 20px;
+    }
+  
+    .mantine-Group-root {
+      justify-content: center;
+    }
+  }
+  

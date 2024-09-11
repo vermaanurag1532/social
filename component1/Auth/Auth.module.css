@@ -2,7 +2,8 @@
     height: 500px;
     width: 500px;
     margin: auto;
-    margin-top: 10vh;
+    margin-top: 10%;
+    margin-bottom: 10%;
 }
 
 /* For tablets */
@@ -28,6 +29,6 @@
     .authForm {
         height: 600px;
         width: 90%;
-        margin-top: 5vh;
+        margin-top: 20%;
     }
 }

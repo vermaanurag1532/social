@@ -4,7 +4,7 @@ import { app } from '../../firebase/config/Firebase';
 import { getFirestore, doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import styles from './Video.module.css';
 import CommentSection from '../CommentSection';
-import useImageWithFallback from '@/components/Functions/ImageFallbaclFunction';
+import useImageWithFallback from '@/component1/Functions/ImageFallbaclFunction';
 
 const db = getFirestore(app);
 

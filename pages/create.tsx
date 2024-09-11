@@ -1,4 +1,4 @@
-import BecomeCreator from "@/components/UploadContent/BecomeCreator";
+import BecomeCreator from "@/component1/UploadContent/BecomeCreator";
 
 const index = () => <BecomeCreator />;
 

@@ -1,6 +1,6 @@
 // pages/profile/index.tsx
 import React from 'react';
-import { Profile } from '@/components';
+import { Profile } from '@/component1';
 import { useAuth } from '@/hooks/useAuth';
 
 const ProfilePage: React.FC = () => {

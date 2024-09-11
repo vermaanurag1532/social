@@ -1,0 +1,12 @@
+.custom-alert {
+    transition: opacity 0.3s ease-out; /* Smooth fade-out transition */
+  }
+  
+  .fade-in {
+    opacity: 1;
+  }
+  
+  .fade-out {
+    opacity: 0;
+  }
+  

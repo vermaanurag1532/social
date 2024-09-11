@@ -1,4 +1,4 @@
-import Explore from "@/components/Explore";
+import Explore from "@/component1/Explore";
 
 const index = () => <Explore />;
 

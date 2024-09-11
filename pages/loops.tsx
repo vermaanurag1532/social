@@ -1,5 +1,5 @@
 // pages/loops.tsx
-import LoopsSections from "@/components/Loop/LoopSection/LoopSection";
+import LoopsSections from "@/component1/Loop/LoopSection/LoopSection";
 
 const index = () => <LoopsSections />;
 

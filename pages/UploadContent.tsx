@@ -1,4 +1,4 @@
-import { UploadContent } from "@/components";
+import { UploadContent } from "@/component1";
 
 const index = () => <UploadContent />;
 
